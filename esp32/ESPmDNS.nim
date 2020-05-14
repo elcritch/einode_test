@@ -77,9 +77,9 @@ proc enableArduino*(this: var MDNSResponder; port: uint16 = 3232; auth: bool = f
     cdecl, importcpp: "enableArduino", header: "ESPmDNS.h".}
 proc disableArduino*(this: var MDNSResponder) {.cdecl, importcpp: "disableArduino",
     header: "ESPmDNS.h".}
-proc enableWorkstation*(this: var MDNSResponder;
-                       `interface`: wifi_interface_t = ESP_IF_WIFI_STA) {.cdecl,
-    importcpp: "enableWorkstation", header: "ESPmDNS.h".}
+# proc enableWorkstation*(this: var MDNSResponder;
+                    #    `interface`: wifi_interface_t = ESP_IF_WIFI_STA) {.cdecl,
+    # importcpp: "enableWorkstation", header: "ESPmDNS.h".}
 proc disableWorkstation*(this: var MDNSResponder) {.cdecl,
     importcpp: "disableWorkstation", header: "ESPmDNS.h".}
 proc queryHost*(this: var MDNSResponder; host: cstring; timeout: uint32 = 2000): IPAddress {.
