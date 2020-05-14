@@ -16,28 +16,26 @@ all: nim
 		# -d:nimOldCaseObjects \
 		# --assertions:on \
 		# --define:standaloneHeapSize=92160 \
+		# -d:use_malloc \
+		# -d:PageSize=256 \
+		# -d:cpu16 \
 
 nim: 
 	echo "NIMCACHE: " $(NIMCACHE)
 	nim cpp \
-		--cpu:$(NIM_CPU) \
-		-d:debug \
-		-d:PageSize=256 \
-		-d:cpu16 \
-		--os:any \
-		-d:use_malloc \
 		--gc:arc \
+		-d:debug \
+		--os:any \
 		--debugger:native \
 		--exceptions:goto \
+		-d:use_malloc \
+		--cpu:$(NIM_CPU) \
 		--no_main \
 		--dead_code_elim:on \
 		--threads:off \
 		--tls_emulation:off \
 		--verbosity:3 \
 		--multimethods:on \
-		-d:spryMathNoRandom \
-		--stackTrace:on \
-		--lineTrace:on \
 		-d:no_signal_handler \
 		-d:$(ARDUINO_LINKAGE) \
 		--nim_cache:"$(PWD)/$(NIMCACHE)" \
