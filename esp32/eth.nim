@@ -46,7 +46,7 @@ proc destroyETHClass*(this: var ETHClass) {.cdecl, importcpp: "#.~ETHClass()",
 
 proc begin*(this: var ETHClass): bool {.cdecl,
     importcpp: "begin", header: "ETH.h".}
-proc begin*(this: var ETHClass; phy_addr: uint8 = ETH_PHY_ADDR;
+proc beginFull*(this: var ETHClass; phy_addr: uint8 = ETH_PHY_ADDR;
            power: cint = ETH_PHY_POWER; mdc: cint = ETH_PHY_MDC;
            mdio: cint = ETH_PHY_MDIO; `type`: eth_phy_type_t = ETH_PHY_TYPE;
            clk_mode: eth_clock_mode_t = ETH_CLK_MODE): bool {.cdecl,
