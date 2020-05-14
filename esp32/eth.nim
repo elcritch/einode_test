@@ -20,11 +20,20 @@
 
 import arduino
 import esp_eth
+import IPAddress
+import IPv6Address
 
 type
   eth_phy_type_t* {.size: sizeof(cint), importcpp: "eth_phy_type_t", header: "ETH.h".} = enum
     ETH_PHY_LAN8720, ETH_PHY_TLK110, ETH_PHY_MAX
 
+const
+  ETH_PHY_ADDR* = 0
+  ETH_PHY_TYPE* = ETH_PHY_LAN8720
+  ETH_PHY_POWER* = -1
+  ETH_PHY_MDC* = 23
+  ETH_PHY_MDIO* = 18
+  ETH_CLK_MODE* = ETH_CLOCK_GPIO0_IN
 
 type
   ETHClass* {.importcpp: "ETHClass", header: "ETH.h", bycopy.} = object
@@ -41,8 +50,8 @@ proc begin*(this: var ETHClass; phy_addr: uint8 = ETH_PHY_ADDR;
            clk_mode: eth_clock_mode_t = ETH_CLK_MODE): bool {.cdecl,
     importcpp: "begin", header: "ETH.h".}
 proc config*(this: var ETHClass; local_ip: IPAddress; gateway: IPAddress;
-            subnet: IPAddress; dns1: IPAddress = cast[uint32](0x00000000);
-            dns2: IPAddress = cast[uint32](0x00000000)): bool {.cdecl,
+            subnet: IPAddress; dns1: IPAddress = cast[IPAddress](0x00000000);
+            dns2: IPAddress = cast[IPAddress](0x00000000)): bool {.cdecl,
     importcpp: "config", header: "ETH.h".}
 proc getHostname*(this: var ETHClass): cstring {.cdecl, importcpp: "getHostname",
     header: "ETH.h".}

@@ -52,4 +52,6 @@ proc `[]`*(this: var IPAddress; index: cint): var uint8 {.cdecl, importcpp: "#[@
     header: "IPAddress.h".}
 proc toString*(this: IPAddress): String {.noSideEffect, cdecl, importcpp: "toString",
                                       header: "IPAddress.h".}
-##  const IPAddress INADDR_NONE(0, 0, 0, 0);
+
+var INADDR_NONE* {.importcpp: "INADDR_NONE", header: "IPAddress.h".}: IPAddress 
+
