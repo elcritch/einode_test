@@ -15,7 +15,7 @@ all: nim
 		# --embedsrc:on \
 		# -d:nimOldCaseObjects \
 		# --assertions:on \
-		# --define:standaloneHeapSize=92160 \
+		# --define:standaloneHeapSize=92_160 \
 		# -d:use_malloc \
 		# -d:PageSize=256 \
 		# -d:cpu16 \
@@ -29,7 +29,7 @@ nim:
 		--os:any \
 		--debugger:native \
 		--exceptions:goto \
-		--define:standaloneHeapSize=92_160 \
+		-d:use_malloc \
 		--cpu:$(NIM_CPU) \
 		--no_main \
 		--dead_code_elim:on \
