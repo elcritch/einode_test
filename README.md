@@ -1,4 +1,4 @@
-# nim_test
+# EiNode Test
 
-Nim Test - example project for setting up Nim to compile for Arduino (Itsy Cortex-M4 board). 
+EiNode Test - example project for setting up Nim to create an Erlang node on the ESP32. 
 
