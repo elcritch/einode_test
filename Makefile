@@ -19,6 +19,7 @@ all: nim
 		# -d:use_malloc \
 		# -d:PageSize=256 \
 		# -d:cpu16 \
+		# -d:use_malloc \
 
 nim: 
 	echo "NIMCACHE: " $(NIMCACHE)
@@ -28,7 +29,7 @@ nim:
 		--os:any \
 		--debugger:native \
 		--exceptions:goto \
-		-d:use_malloc \
+		--define:standaloneHeapSize=92_160 \
 		--cpu:$(NIM_CPU) \
 		--no_main \
 		--dead_code_elim:on \
