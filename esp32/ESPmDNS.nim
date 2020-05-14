@@ -40,6 +40,7 @@
 ##
 
 import arduino
+import IPAddress
 import IPv6Address
 
 ## this should be defined at build time
@@ -59,10 +60,6 @@ proc setInstanceName*(this: var MDNSResponder; name: String) {.cdecl,
     importcpp: "setInstanceName", header: "ESPmDNS.h".}
 proc setInstanceName*(this: var MDNSResponder; name: cstring) {.cdecl,
     importcpp: "setInstanceName", header: "ESPmDNS.h".}
-proc setInstanceName*(this: var MDNSResponder; name: cstring) {.cdecl,
-    importcpp: "setInstanceName", header: "ESPmDNS.h".}
-proc addService*(this: var MDNSResponder; service: cstring; proto: cstring;
-                port: uint16) {.cdecl, importcpp: "addService", header: "ESPmDNS.h".}
 proc addService*(this: var MDNSResponder; service: cstring; proto: cstring;
                 port: uint16) {.cdecl, importcpp: "addService", header: "ESPmDNS.h".}
 proc addService*(this: var MDNSResponder; service: String; proto: String; port: uint16) {.
@@ -87,12 +84,8 @@ proc disableWorkstation*(this: var MDNSResponder) {.cdecl,
     importcpp: "disableWorkstation", header: "ESPmDNS.h".}
 proc queryHost*(this: var MDNSResponder; host: cstring; timeout: uint32 = 2000): IPAddress {.
     cdecl, importcpp: "queryHost", header: "ESPmDNS.h".}
-proc queryHost*(this: var MDNSResponder; host: cstring; timeout: uint32 = 2000): IPAddress {.
-    cdecl, importcpp: "queryHost", header: "ESPmDNS.h".}
 proc queryHost*(this: var MDNSResponder; host: String; timeout: uint32 = 2000): IPAddress {.
     cdecl, importcpp: "queryHost", header: "ESPmDNS.h".}
-proc queryService*(this: var MDNSResponder; service: cstring; proto: cstring): cint {.
-    cdecl, importcpp: "queryService", header: "ESPmDNS.h".}
 proc queryService*(this: var MDNSResponder; service: cstring; proto: cstring): cint {.
     cdecl, importcpp: "queryService", header: "ESPmDNS.h".}
 proc queryService*(this: var MDNSResponder; service: String; proto: String): cint {.

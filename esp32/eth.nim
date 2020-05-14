@@ -44,6 +44,8 @@ proc constructETHClass*(): ETHClass {.cdecl, constructor, importcpp: "ETHClass(@
 proc destroyETHClass*(this: var ETHClass) {.cdecl, importcpp: "#.~ETHClass()",
                                         header: "ETH.h".}
 
+proc begin*(this: var ETHClass): bool {.cdecl,
+    importcpp: "begin", header: "ETH.h".}
 proc begin*(this: var ETHClass; phy_addr: uint8 = ETH_PHY_ADDR;
            power: cint = ETH_PHY_POWER; mdc: cint = ETH_PHY_MDC;
            mdio: cint = ETH_PHY_MDIO; `type`: eth_phy_type_t = ETH_PHY_TYPE;
