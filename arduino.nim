@@ -1,14 +1,37 @@
 # Translated with c2nim from Arduino.h and friends
 
 import macros
-import strutils except `formatFloat`
+# import strutils except `formatFloat`
+import strutils 
 
 
-const LED_BUILTIN* = 13
-const HIGH* = 1
-const LOW* = 0
-const INPUT* = 0
-const OUTPUT* = 1
+# const LED_BUILTIN* = 5
+# const HIGH* = 1
+# const LOW* = 0
+# const INPUT* = 0
+# const OUTPUT* = 1
+
+const LED_BUILTIN* = 5 # custom per board?
+const LOW* =               0x0
+const HIGH* =              0x1
+
+# GPIO FUNCTIONS
+const INPUT* =             0x01
+const OUTPUT* =            0x02
+const PULLUP* =            0x04
+const INPUT_PULLUP* =      0x05
+const PULLDOWN* =          0x08
+const INPUT_PULLDOWN* =    0x09
+const OPEN_DRAIN* =        0x10
+const OUTPUT_OPEN_DRAIN* = 0x12
+const SPECIAL* =           0xF0
+const FUNCTION_1* =        0x00
+const FUNCTION_2* =        0x20
+const FUNCTION_3* =        0x40
+const FUNCTION_4* =        0x60
+const FUNCTION_5* =        0x80
+const FUNCTION_6* =        0xA0
+const ANALOG* =            0xC0
 
 type
   cuchar = uint8
@@ -45,14 +68,14 @@ proc toDouble*(this: String): cdouble {.noSideEffect, cdecl, importcpp: "toDoubl
 
 
 # Override built-in float to string conversion 
-proc formatFloat*(f: float, format: FloatFormatMode = ffDefault,
-                  precision: range[-1..32] = 16; decimalSep = '.'): string {.noSideEffect.} =
-  var prec:cuchar = precision.cuchar
-  var ff = constructString(f, prec)
-  var fstr = $ff.c_str()
-  var fnew = fstr
-  ff.destroyString()
-  return fnew
+# proc formatFloat*(f: float, format: FloatFormatMode = ffDefault,
+#                   precision: range[-1..32] = 16; decimalSep = '.'): string {.noSideEffect.} =
+#   var prec:cuchar = precision.cuchar
+#   var ff = constructString(f, prec)
+#   var fstr = $ff.c_str()
+#   var fnew = fstr
+#   ff.destroyString()
+#   return fnew
 
 proc formatValue*(result: var string; value: SomeFloat; specifier: string) =
   result = formatFloat(value)
@@ -104,6 +127,8 @@ type
 
 var Serial* {.importcpp: "Serial", header: "Arduino.h".}: Stream
 proc begin*(this: var Stream; baud: cint) {.importcpp: "begin", header: "Arduino.h".}
+proc setTimeout*(this: Stream; index: culong) {.noSideEffect, cdecl,
+    importcpp: "setTimeout", header: "Arduino.h".}
 proc available*(this: var Stream): cint {.importcpp: "available", header: "Arduino.h".}
 proc read*(this: var Stream): cint {.importcpp: "read", header: "Arduino.h".}
 proc write*(this: var Stream; n: uint8): csize_t {.importcpp: "write", header: "HardwareSerial.h".}
@@ -111,39 +136,62 @@ proc print*(this: var Stream; s: cstring) {.importcpp: "print", header: "Arduino
 proc println*(this: var Stream; s: cstring) {.importcpp: "println", header: "Arduino.h".}
 proc pgmReadByte*(a: ptr uint8): uint8 {.importc:"pgm_read_byte", header:"avr/pgmspace.h" .}
 
-# proc `$`*(f: float): string = WString.formatFloat(f)
-# proc `$`*(f: float32): string = WString.formatFloat(f)
-# proc `$`*(f: float64): string = WString.formatFloat(f)
+proc readStringUntil*(this: var Stream, c: char): String {.importcpp: "readStringUntil", header: "Arduino.h".}
+proc readString*(this: var Stream): String {.importcpp: "readString", header: "Arduino.h".}
 
 var Stdout*: ptr Stream 
 var Stdin*: ptr Stream 
 
+
 proc write*(this: ptr Stream, msg: string) =
   this[].print(msg)
-proc readLine*(this: ptr Stream): string =
+proc read*(this: ptr Stream): string =
   result = ""
-  while (this[].available() > 0):
+  while this[].available() > 0:
     result.add(this[].read().char)
+
+proc readLine*(this: ptr Stream): string =
+  var result0 = Stdin[].readStringUntil('\n')
+  var result1: string = $(result0.c_str())
+  return result1
+
+# proc readLine*(this: ptr Stream): string =
+#   var str = @""
+#   var ch: char = '\0'
+
+#   while true:
+#     var val = this[].read()
+#     # echo "letter => " & $val
+#     if val > 0:
+#       ch = val.char
+#       str.add(ch)
+#       if ch == '\n' or ch == '\r':
+#         return $str
+#     else:
+#       delay(1)
+#   return $str
   
 proc echo*(msg: string) =
   Serial.println(msg)
 
-# proc myputchar*(c: char, f: FILE): cint {.exportc,cdecl.} =
-#   discard Serial.write(c.uint8).cint
-#   result = 0
-
-# proc fdevopen*(put: proc (a1: char; a2: FILE): cint {.cdecl.};
-#                get: proc (a1: FILE): cint {.cdecl.} ): FILE {.importcpp: "fdevopen(@)", header: "stdio.h".}
-
 # Convenience macros for the setup() and loop() functions
 
-template setup*(code: untyped) =
-  proc setup*() {.exportc.} =
-    code 
+when defined(arduinoCppLinkage):
+  template setup*(code: untyped) =
+    proc setup*() {.exportcpp.} =
+      code 
 
-template loop*(code: untyped) =
-  proc loop*() {.exportc.} =
-    code 
+  template loop*(code: untyped) =
+    proc loop*() {.exportcpp.} =
+      code 
+else:
+  template setup*(code: untyped) =
+    proc setup*() {.exportc.} =
+      code 
+
+  template loop*(code: untyped) =
+    proc loop*() {.exportc.} =
+      code 
 
 # Macro to move let sections in to PROGMEM
 

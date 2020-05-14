@@ -6,7 +6,7 @@ ARDUINO_BOARD := esp32:esp32:wesp32
 ARDUINO_LINKAGE := arduinoCppLinkage
 # Unsure about this, since we compiled it ourself maybe it's not important
 NIM_CPU := arm
-NIM_PROGRAM := spryduino.nim
+NIM_PROGRAM := einode_test.nim
 
 all: nim
 	arduino-cli compile --build-properties compiler.cpp.extra_flags="-fpermissive "  --fqbn $(ARDUINO_BOARD) -v $(PWD)/$(NIMCACHE)/

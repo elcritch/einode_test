@@ -1,3 +1,5 @@
 nimcache/
 /*.bin
 /*.elf
+_nimble
+einode_test/
