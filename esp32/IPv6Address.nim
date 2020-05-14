@@ -49,8 +49,6 @@ proc `[]`*(this: IPv6Address; index: cint): uint8 {.noSideEffect, cdecl,
     importcpp: "#[@]", header: "IPv6Address.h".}
 proc `[]`*(this: var IPv6Address; index: cint): var uint8 {.cdecl, importcpp: "#[@]",
     header: "IPv6Address.h".}
-proc printTo*(this: IPv6Address; p: var Print): csize {.noSideEffect, cdecl,
-    importcpp: "printTo", header: "IPv6Address.h".}
 proc toString*(this: IPv6Address): String {.noSideEffect, cdecl,
                                         importcpp: "toString",
                                         header: "IPv6Address.h".}

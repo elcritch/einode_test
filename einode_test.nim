@@ -1,4 +1,6 @@
-import arduino
+import esp32/arduino
+import esp32/eth
+import esp32/ESPmDNS
 
 proc NimMain() {.importc.}
 

@@ -19,6 +19,7 @@
 ##
 
 import arduino
+import esp_eth
 
 type
   eth_phy_type_t* = enum
@@ -41,7 +42,7 @@ proc destroyETHClass*(this: var ETHClass) {.cdecl.}
 proc begin*(this: var ETHClass; phy_addr: uint8 = ETH_PHY_ADDR;
            power: cint = ETH_PHY_POWER; mdc: cint = ETH_PHY_MDC;
            mdio: cint = ETH_PHY_MDIO; `type`: eth_phy_type_t = ETH_PHY_TYPE;
-           clk_mode: eth_clock_mode_t = ETH_CLK_MODE): bool {.cdecl.}
+           clk_mode: eth_clock_mode_t = ETH_CLOCK_GPIO0_IN): bool {.cdecl.}
 proc config*(this: var ETHClass; local_ip: IPAddress; gateway: IPAddress;
             subnet: IPAddress; dns1: IPAddress = cast[uint32](0x00000000);
             dns2: IPAddress = cast[uint32](0x00000000)): bool {.cdecl.}
