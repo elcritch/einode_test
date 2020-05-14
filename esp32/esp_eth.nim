@@ -11,7 +11,7 @@
 ##  See the License for the specific language governing permissions and
 ##  limitations under the License.
 
-import err
+import esp_err
 
 ## *
 ##  @brief Ethernet interface mode
