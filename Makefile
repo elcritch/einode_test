@@ -8,6 +8,10 @@ ARDUINO_LINKAGE := arduinoCppLinkage
 NIM_CPU := arm
 NIM_PROGRAM := einode_test.nim
 
+ERTS=$(shell elixir ../erl_base.exs)
+INCLUDE_DIR=$(ERTS)/include
+LIB_DIR=$(ERTS)/lib
+
 all: nim
 	arduino-cli compile --build-properties compiler.cpp.extra_flags="-fpermissive "  --fqbn $(ARDUINO_BOARD) -v $(PWD)/$(NIMCACHE)/
 
@@ -30,6 +34,7 @@ nim:
 		--debugger:native \
 		--exceptions:goto \
 		-d:use_malloc \
+		-d:posix \
 		--cpu:$(NIM_CPU) \
 		--no_main \
 		--dead_code_elim:on \
